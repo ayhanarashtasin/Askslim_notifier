@@ -112,13 +112,22 @@ def save_current_state(state):
 
 
 def format_new_idea_message(idea_id: str, item: dict) -> str:
-  """Builds a rich Telegram notification for a newly created trade idea."""
+  """Builds a rich Telegram notification with all 9 requested fields."""
   symbol = item.get("symbol", "N/A")
-  bias = BIAS_MAP.get(item.get("position_bias"), "N/A")
-  bias_emoji = "📈" if bias == "Long" else ("📉" if bias == "Short" else "⚖️")
+  status = STATUS_MAP.get(item.get("status"), "Active")
+  
+  # Format date
+  raw_date = item.get("creation_date", "")
+  try:
+    date_str = raw_date[:10] if raw_date else "N/A"
+  except Exception:
+    date_str = raw_date or "N/A"
 
   period = PERIOD_MAP.get(item.get("market_outlook_period"), "N/A")
   price = item.get("current_price", "N/A")
+  
+  bias = BIAS_MAP.get(item.get("position_bias"), "N/A")
+  bias_emoji = "📈" if bias == "Long" else ("📉" if bias == "Short" else "⚖️")
 
   # Ranges
   entry_ranges = item.get("entry_ranges", [])
@@ -137,12 +146,12 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
           for r in target_ranges
       ])
       if target_ranges
-      else "N/A"
+      else "Pending"
   )
 
   re_eval_num = item.get("re_eval_point_number")
   re_eval_cond = item.get("re_eval_point_condition")
-  cond_symbol = "< " if re_eval_cond == -1 else ("> " if re_eval_cond == 1 else "")
+  cond_symbol = "&lt; " if re_eval_cond == -1 else ("&gt; " if re_eval_cond == 1 else "")
   re_eval_str = (
       f"{cond_symbol}{re_eval_num}" if re_eval_num is not None else "N/A"
   )
@@ -150,17 +159,20 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
   briefing = item.get("briefing", "").strip()
 
   msg = (
-      f"🚨 <b>NEW TRADE IDEA: ${symbol}</b>\n\n"
-      f"• <b>Direction:</b> {bias_emoji} <b>{bias}</b>\n"
+      f"🚨 <b>NEW ASKSILM TRADE IDEA: ${symbol}</b>\n\n"
+      f"• <b>Status:</b> {status}\n"
+      f"• <b>Date:</b> {date_str}\n"
       f"• <b>Period:</b> {period}\n"
+      f"• <b>Symbol:</b> <b>${symbol}</b>\n"
       f"• <b>Price at Analysis:</b> ${price}\n"
-      f"• <b>Target Entry Range:</b> {entry_str}\n"
+      f"• <b>Position Bias:</b> {bias_emoji} <b>{bias}</b>\n"
+      f"• <b>Entry Range:</b> {entry_str}\n"
       f"• <b>Target Range:</b> {target_str}\n"
       f"• <b>Re-Evaluation Level:</b> {re_eval_str}\n\n"
   )
 
   if briefing:
-    msg += f"📝 <b>Analysis Briefing:</b>\n<i>{briefing}</i>\n\n"
+    msg += f"📝 <b>Briefing Notes:</b>\n<i>{briefing}</i>\n\n"
 
   msg += f"🔗 <a href='https://trade-ideas.slimulator.net/app/'>View on askSlim</a>"
   return msg
@@ -169,20 +181,28 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
 def format_status_update_message(
     idea_id: str, old_item: dict, new_item: dict
 ) -> str:
-  """Builds a notification when an existing trade idea is updated (e.g.
-
-  target reached / closed).
-  """
+  """Builds a notification when an existing trade idea is updated."""
   symbol = new_item.get("symbol", "N/A")
   old_status = STATUS_MAP.get(old_item.get("status"), str(old_item.get("status")))
   new_status = STATUS_MAP.get(new_item.get("status"), str(new_item.get("status")))
+
+  raw_date = new_item.get("creation_date", "")
+  date_str = raw_date[:10] if raw_date else "N/A"
+  period = PERIOD_MAP.get(new_item.get("market_outlook_period"), "N/A")
+  price = new_item.get("current_price", "N/A")
+  bias = BIAS_MAP.get(new_item.get("position_bias"), "N/A")
 
   outcome = OUTCOME_MAP.get(new_item.get("idea_outcome"), "N/A")
   result_text = new_item.get("result_text", "").strip()
 
   msg = (
       f"🔔 <b>TRADE IDEA UPDATE: ${symbol}</b>\n\n"
-      f"• <b>Status Change:</b> {old_status} ➔ <b>{new_status}</b>\n"
+      f"• <b>Status:</b> {old_status} ➔ <b>{new_status}</b>\n"
+      f"• <b>Date:</b> {date_str}\n"
+      f"• <b>Period:</b> {period}\n"
+      f"• <b>Symbol:</b> <b>${symbol}</b>\n"
+      f"• <b>Price at Analysis:</b> ${price}\n"
+      f"• <b>Position Bias:</b> <b>{bias}</b>\n"
       f"• <b>Outcome:</b> <b>{outcome}</b>\n"
   )
 
