@@ -1,0 +1,33 @@
+name: askSlim Trade Ideas Monitor
+
+on:
+  schedule:
+    # Runs every 15 minutes automatically 24/7
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Notifier
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python telegram_notifier.py --once
+
+      - name: Commit and push updated state
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add notifier_state.json trade_ideas.json trade_ideas_raw.json trade_ideas.csv || true
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update trade ideas state" && git push)
