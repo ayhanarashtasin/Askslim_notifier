@@ -2,3 +2,10 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
+
+# Ignore datasets and local scratch files
+trade_ideas.json
+trade_ideas_raw.json
+trade_ideas.csv
+fetch_trade_ideas.py
+*.png
