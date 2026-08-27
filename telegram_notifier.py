@@ -111,25 +111,44 @@ def save_current_state(state):
     json.dump(state, f, indent=2, ensure_ascii=False)
 
 
+PERIOD_SHORT_MAP = {
+    1: "N-T",
+    2: "S-T",
+    3: "I-T",
+    4: "L-T",
+    5: "Intraday",
+}
+
+
 def format_new_idea_message(idea_id: str, item: dict) -> str:
-  """Builds a rich Telegram notification with all 9 requested fields."""
+  """Builds a rich Telegram notification matching the website table fields."""
   symbol = item.get("symbol", "N/A")
-  status = STATUS_MAP.get(item.get("status"), "Active")
+  status_code = item.get("status")
+  status_display = "🟢 Active" if status_code == 2 else "🔴 Inactive"
   
-  # Format date
+  # Format date as MM/DD/YY to match website
   raw_date = item.get("creation_date", "")
   try:
-    date_str = raw_date[:10] if raw_date else "N/A"
+    if raw_date:
+      # e.g. 2026-08-19 -> 08/19/26
+      dt = datetime.fromisoformat(raw_date.replace("Z", "+00:00"))
+      date_str = dt.strftime("%m/%d/%y")
+    else:
+      date_str = "N/A"
   except Exception:
-    date_str = raw_date or "N/A"
+    date_str = raw_date[:10] if raw_date else "N/A"
 
-  period = PERIOD_MAP.get(item.get("market_outlook_period"), "N/A")
+  period_code = item.get("market_outlook_period")
+  period_short = PERIOD_SHORT_MAP.get(period_code, "N/A")
+  period_full = PERIOD_MAP.get(period_code, "")
+  period_display = f"{period_short} ({period_full})" if period_full else period_short
+  
   price = item.get("current_price", "N/A")
   
   bias = BIAS_MAP.get(item.get("position_bias"), "N/A")
   bias_emoji = "📈" if bias == "Long" else ("📉" if bias == "Short" else "⚖️")
 
-  # Ranges
+  # Entry Ranges
   entry_ranges = item.get("entry_ranges", [])
   entry_str = (
       ", ".join([
@@ -139,32 +158,35 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
       else "N/A"
   )
 
+  # Target Ranges with Projection label
   target_ranges = item.get("target_ranges", [])
-  target_str = (
-      ", ".join([
-          f"{r[0]} - {r[1]}" if len(r) == 2 else str(r)
-          for r in target_ranges
-      ])
-      if target_ranges
-      else "Pending"
-  )
+  projections = item.get("projections", [])
+  proj_prefix = f"{PERIOD_SHORT_MAP.get(projections[0], 'Target')} Projection: " if projections else ""
+  if target_ranges:
+    target_str = proj_prefix + ", ".join([
+        f"{r[0]} - {r[1]}" if len(r) == 2 else str(r)
+        for r in target_ranges
+    ])
+  else:
+    target_str = "—"
 
+  # Re-evaluation level (e.g. Daily Close < 71.25)
   re_eval_num = item.get("re_eval_point_number")
   re_eval_cond = item.get("re_eval_point_condition")
   cond_symbol = "&lt; " if re_eval_cond == -1 else ("&gt; " if re_eval_cond == 1 else "")
   re_eval_str = (
-      f"{cond_symbol}{re_eval_num}" if re_eval_num is not None else "N/A"
+      f"Daily Close {cond_symbol}{re_eval_num}" if re_eval_num is not None else "N/A"
   )
 
   briefing = item.get("briefing", "").strip()
 
   msg = (
       f"🚨 <b>NEW ASKSILM TRADE IDEA: ${symbol}</b>\n\n"
-      f"• <b>Status:</b> {status}\n"
+      f"• <b>Status:</b> {status_display}\n"
       f"• <b>Date:</b> {date_str}\n"
-      f"• <b>Period:</b> {period}\n"
+      f"• <b>Period:</b> {period_display}\n"
       f"• <b>Symbol:</b> <b>${symbol}</b>\n"
-      f"• <b>Price at Analysis:</b> ${price}\n"
+      f"• <b>Price at Time of Analysis:</b> ${price}\n"
       f"• <b>Position Bias:</b> {bias_emoji} <b>{bias}</b>\n"
       f"• <b>Entry Range:</b> {entry_str}\n"
       f"• <b>Target Range:</b> {target_str}\n"
