@@ -7,7 +7,7 @@ Automated 24/7 Telegram notification monitor for askSlim Trade Ideas.
 ## 🚀 Features
 
 - **24/7 Cloud Automation (`.github/workflows/askslim_monitor.yml`)**:
-  - Automatically checks askSlim every 15 minutes via GitHub Actions.
+  - Automatically checks askSlim every 5 minutes via GitHub Actions.
   - Runs in the cloud with zero maintenance and no need to keep your computer turned on.
 - **Telegram Notifier (`telegram_notifier.py`)**:
   - **New Trade Ideas**: Instant alerts with Symbol, Direction (Long/Short), Price, Target Entry Range, Target Range, Re-Evaluation Level, and Analysis Briefing.
@@ -36,7 +36,7 @@ Automated 24/7 Telegram notification monitor for askSlim Trade Ideas.
 2. Click **New repository secret** and add:
    - `TELEGRAM_BOT_TOKEN`: Your bot token from [@BotFather](https://t.me/BotFather).
    - `TELEGRAM_CHAT_ID`: Your chat ID from [@userinfobot](https://t.me/userinfobot).
-3. The workflow will automatically trigger every 15 minutes and send alerts directly to your Telegram.
+3. The workflow will automatically trigger every 5 minutes and send alerts directly to your Telegram.
 
 ---
 
