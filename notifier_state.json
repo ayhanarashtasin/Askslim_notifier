@@ -63,7 +63,7 @@
   },
   "1090": {
     "symbol": "TECK",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-08-19T13:27:31.567Z",
     "current_price": 65.4,
     "position_bias": 2,
@@ -78,18 +78,23 @@
     "projections": [
       2
     ],
-    "target_ranges": [],
-    "re_eval_point_number": 71.25,
+    "target_ranges": [
+      [
+        68.5,
+        71.25
+      ]
+    ],
+    "re_eval_point_number": 62.78,
     "re_eval_point_condition": -1,
     "briefing": "Weekly rising phase. Daily low due mid to end of Aug. Breakout setup vs 65.22 re-eval new lows.",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-08-31T13:08:54Z",
+    "result_text": "Targets for the idea have all been exceeded. Great one to keep on your archive",
     "entered_favorable_entry": 1,
-    "idea_outcome": 0
+    "idea_outcome": 2
   },
   "1089": {
     "symbol": "FCX",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-08-18T13:39:46.689Z",
     "current_price": 67.78,
     "position_bias": 2,
@@ -113,10 +118,10 @@
     "re_eval_point_number": 66.54,
     "re_eval_point_condition": -1,
     "briefing": "Weekly rising phase. Daily low due 8/12 - 8/26. Breakout play vs yesterday HOD - needs to close over to turn green on site. Targeting at first recent swing highs.",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-08-31T13:07:15Z",
+    "result_text": "Targets for the idea have all been exceeded. Great one to keep on your archive",
     "entered_favorable_entry": 1,
-    "idea_outcome": 0
+    "idea_outcome": 2
   },
   "1087": {
     "symbol": "INTC",
@@ -29600,37 +29605,6 @@
     "entered_favorable_entry": 2,
     "idea_outcome": 3
   },
-  "124": {
-    "symbol": "COST",
-    "status": 1,
-    "creation_date": "2020-07-21T00:00:00Z",
-    "current_price": 326.51,
-    "position_bias": 2,
-    "market_outlook_period": 2,
-    "trade_type": 15,
-    "entry_ranges": [
-      [
-        323.49,
-        316.96
-      ]
-    ],
-    "projections": [
-      2
-    ],
-    "target_ranges": [
-      [
-        334.2,
-        345.19
-      ]
-    ],
-    "re_eval_point_number": 314.04,
-    "re_eval_point_condition": -1,
-    "briefing": "The weekly cycle analysis suggests that COST is very early in an intermediate-term rising phase. The stock has just broken out of a diamond continuation pattern. Weekly momentum is positive. The daily cycle analysis suggests that COST is forming a bullish swamped cycle. The next short-term low is due between 7/21 - 7/30. The Slim Ribbon is positively configured. There are minor supports just below current levels. We are targeting an intermediate-term Fibonacci extension zone on the upside. Please review the COST Trade Idea video for a walk through of the analysis.",
-    "inactive_datetime": "2020-08-04T13:58:56Z",
-    "result_text": "The  conditions for this Trade Idea have been satisfied. COST tested the favorable entry and has now tested the projection/target zone.",
-    "entered_favorable_entry": 2,
-    "idea_outcome": 2
-  },
   "125": {
     "symbol": "UAL",
     "status": 1,
@@ -29661,6 +29635,37 @@
     "result_text": "UAL is still trading just above the favorable entry. However, the stock has gone sideways in a short-term rising phase. We are inactivating this Trade Idea.",
     "entered_favorable_entry": 2,
     "idea_outcome": 0
+  },
+  "124": {
+    "symbol": "COST",
+    "status": 1,
+    "creation_date": "2020-07-21T00:00:00Z",
+    "current_price": 326.51,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 15,
+    "entry_ranges": [
+      [
+        323.49,
+        316.96
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        334.2,
+        345.19
+      ]
+    ],
+    "re_eval_point_number": 314.04,
+    "re_eval_point_condition": -1,
+    "briefing": "The weekly cycle analysis suggests that COST is very early in an intermediate-term rising phase. The stock has just broken out of a diamond continuation pattern. Weekly momentum is positive. The daily cycle analysis suggests that COST is forming a bullish swamped cycle. The next short-term low is due between 7/21 - 7/30. The Slim Ribbon is positively configured. There are minor supports just below current levels. We are targeting an intermediate-term Fibonacci extension zone on the upside. Please review the COST Trade Idea video for a walk through of the analysis.",
+    "inactive_datetime": "2020-08-04T13:58:56Z",
+    "result_text": "The  conditions for this Trade Idea have been satisfied. COST tested the favorable entry and has now tested the projection/target zone.",
+    "entered_favorable_entry": 2,
+    "idea_outcome": 2
   },
   "123": {
     "symbol": "TGT",

@@ -1,3 +1,4 @@
+import html
 import json
 import os
 import ssl
@@ -122,10 +123,10 @@ PERIOD_SHORT_MAP = {
 
 def format_new_idea_message(idea_id: str, item: dict) -> str:
   """Builds a rich Telegram notification matching the website table fields."""
-  symbol = item.get("symbol", "N/A")
+  symbol = html.escape(str(item.get("symbol", "N/A")), quote=False)
   status_code = item.get("status")
   status_display = "🟢 Active" if status_code == 2 else "🔴 Inactive"
-  
+
   # Format date as MM/DD/YY to match website
   raw_date = item.get("creation_date", "")
   try:
@@ -142,9 +143,9 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
   period_short = PERIOD_SHORT_MAP.get(period_code, "N/A")
   period_full = PERIOD_MAP.get(period_code, "")
   period_display = f"{period_short} ({period_full})" if period_full else period_short
-  
+
   price = item.get("current_price", "N/A")
-  
+
   bias = BIAS_MAP.get(item.get("position_bias"), "N/A")
   bias_emoji = "📈" if bias == "Long" else ("📉" if bias == "Short" else "⚖️")
 
@@ -157,6 +158,7 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
       if entry_ranges
       else "N/A"
   )
+  entry_str = html.escape(entry_str, quote=False)
 
   # Target Ranges with Projection label
   target_ranges = item.get("target_ranges", [])
@@ -169,6 +171,7 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
     ])
   else:
     target_str = "—"
+  target_str = html.escape(target_str, quote=False)
 
   # Re-evaluation level (e.g. Daily Close < 71.25)
   re_eval_num = item.get("re_eval_point_number")
@@ -178,7 +181,7 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
       f"Daily Close {cond_symbol}{re_eval_num}" if re_eval_num is not None else "N/A"
   )
 
-  briefing = item.get("briefing", "").strip()
+  briefing = html.escape(item.get("briefing", "").strip(), quote=False)
 
   msg = (
       f"🚨 <b>NEW ASKSILM TRADE IDEA: ${symbol}</b>\n\n"
@@ -204,7 +207,7 @@ def format_status_update_message(
     idea_id: str, old_item: dict, new_item: dict
 ) -> str:
   """Builds a notification when an existing trade idea is updated."""
-  symbol = new_item.get("symbol", "N/A")
+  symbol = html.escape(str(new_item.get("symbol", "N/A")), quote=False)
   old_status = STATUS_MAP.get(old_item.get("status"), str(old_item.get("status")))
   new_status = STATUS_MAP.get(new_item.get("status"), str(new_item.get("status")))
 
@@ -215,7 +218,7 @@ def format_status_update_message(
   bias = BIAS_MAP.get(new_item.get("position_bias"), "N/A")
 
   outcome = OUTCOME_MAP.get(new_item.get("idea_outcome"), "N/A")
-  result_text = new_item.get("result_text", "").strip()
+  result_text = html.escape(new_item.get("result_text", "").strip(), quote=False)
 
   msg = (
       f"🔔 <b>TRADE IDEA UPDATE: ${symbol}</b>\n\n"
@@ -241,6 +244,10 @@ def check_for_updates():
   print(f"[{timestamp}] Checking askSlim for updates...")
 
   current_ideas = fetch_current_trade_ideas()
+  if not current_ideas or not isinstance(current_ideas, dict):
+    print(" [!] No trade data received from askSlim API. Skipping state update to protect data.")
+    return
+
   previous_state = load_previous_state()
 
   if not previous_state:
@@ -262,6 +269,7 @@ def check_for_updates():
       print(f" [+] Found NEW trade idea: {item.get('symbol')} (ID: {idea_id})")
       msg = format_new_idea_message(idea_id, item)
       send_telegram_message(msg)
+      time.sleep(1)
 
     else:
       # Check for status / result updates on existing ideas
@@ -284,6 +292,7 @@ def check_for_updates():
         )
         msg = format_status_update_message(idea_id, old_item, item)
         send_telegram_message(msg)
+        time.sleep(1)
 
   if new_count == 0 and update_count == 0:
     print(" [OK] No new updates found. Everything is up to date.")
