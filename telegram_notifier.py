@@ -4,6 +4,7 @@ import os
 import ssl
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime
@@ -11,11 +12,12 @@ from pathlib import Path
 
 # ==========================================================
 # CONFIGURATION
-# 1. Get Bot Token from @BotFather on Telegram
-# 2. Get your Chat ID from @userinfobot on Telegram
+# Destination Supergroup: Escanor Capital (chat_id: -1003893592513)
+# Forum Topic: Slim Trade Ideas (message_thread_id: 2)
 # ==========================================================
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN_HERE")
-TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "YOUR_TELEGRAM_CHAT_ID_HERE")
+TELEGRAM_CHAT_ID = -1003893592513
+TELEGRAM_MESSAGE_THREAD_ID = 2
 
 API_URL = "https://trade-ideas.slimulator.net/ti/trade_idea"
 STATE_FILE = Path(__file__).parent / "notifier_state.json"
@@ -39,29 +41,22 @@ OUTCOME_MAP = {
 }
 
 
-def send_telegram_message(
-    text: str, bot_token: str = None, chat_id: str = None
-):
-  """Sends an HTML-formatted message to Telegram via Bot API."""
+def _send_telegram_api(
+    endpoint: str, payload: dict, bot_token: str = None
+) -> bool:
+  """Sends an API request to Telegram and logs the complete response on rejection or failure."""
   token = bot_token or TELEGRAM_BOT_TOKEN
-  cid = chat_id or TELEGRAM_CHAT_ID
 
   if token == "YOUR_TELEGRAM_BOT_TOKEN_HERE" or not token:
     print(" [!] Telegram credentials not configured. Message preview:")
     print("-" * 50)
+    text_preview = payload.get("text") or payload.get("caption") or str(payload)
     # encode safe for windows console print
-    print(text.encode("ascii", "replace").decode("ascii"))
+    print(text_preview.encode("ascii", "replace").decode("ascii"))
     print("-" * 50)
     return False
 
-  url = f"https://api.telegram.org/bot{token}/sendMessage"
-  payload = {
-      "chat_id": cid,
-      "text": text,
-      "parse_mode": "HTML",
-      "disable_web_page_preview": True,
-  }
-
+  url = f"https://api.telegram.org/bot{token}/{endpoint}"
   data = json.dumps(payload).encode("utf-8")
   req = urllib.request.Request(
       url, data=data, headers={"Content-Type": "application/json"}
@@ -70,10 +65,94 @@ def send_telegram_message(
 
   try:
     with urllib.request.urlopen(req, context=ctx, timeout=15) as res:
-      return res.status == 200
-  except Exception as e:
-    print(f" [!] Failed to send Telegram message: {e}", file=sys.stderr)
+      response_body = res.read().decode("utf-8")
+      try:
+        res_json = json.loads(response_body)
+        if res_json.get("ok"):
+          return True
+        else:
+          print(
+              f" [!] Telegram API returned error (HTTP {res.status}): {response_body}",
+              file=sys.stderr,
+          )
+          return False
+      except json.JSONDecodeError:
+        return res.status == 200
+  except urllib.error.HTTPError as e:
+    try:
+      err_body = e.read().decode("utf-8", errors="replace")
+    except Exception:
+      err_body = "<unable to read response body>"
+    print(
+        f" [!] Telegram API Error [HTTP {e.code} - {e.reason}]: {err_body}",
+        file=sys.stderr,
+    )
     return False
+  except urllib.error.URLError as e:
+    print(f" [!] Telegram Network Error: {e.reason}", file=sys.stderr)
+    return False
+  except Exception as e:
+    print(f" [!] Unexpected error sending Telegram message: {e}", file=sys.stderr)
+    return False
+
+
+def send_telegram_message(
+    text: str,
+    bot_token: str = None,
+    chat_id: int | str = None,
+    message_thread_id: int = None,
+    parse_mode: str = "HTML",
+    disable_web_page_preview: bool = True,
+) -> bool:
+  """Sends an HTML-formatted text message to the designated Telegram group forum topic."""
+  cid = chat_id if chat_id is not None else TELEGRAM_CHAT_ID
+  thread_id = (
+      message_thread_id
+      if message_thread_id is not None
+      else TELEGRAM_MESSAGE_THREAD_ID
+  )
+
+  payload = {
+      "chat_id": cid,
+      "message_thread_id": thread_id,
+      "text": text,
+      "parse_mode": parse_mode,
+      "disable_web_page_preview": disable_web_page_preview,
+  }
+
+  return _send_telegram_api("sendMessage", payload, bot_token=bot_token)
+
+
+def send_test_message(
+    bot_token: str = None,
+    chat_id: int | str = None,
+    message_thread_id: int = None,
+) -> bool:
+  """Sends the connection verification test message to the Telegram group topic."""
+  test_msg = "✅ MyAskSlimAlertsBot connected to Slim Trade Ideas"
+  cid = chat_id if chat_id is not None else TELEGRAM_CHAT_ID
+  thread_id = (
+      message_thread_id
+      if message_thread_id is not None
+      else TELEGRAM_MESSAGE_THREAD_ID
+  )
+  print(
+      f"[*] Sending test connection message to chat_id={cid}, message_thread_id={thread_id}..."
+  )
+  success = send_telegram_message(
+      text=test_msg,
+      bot_token=bot_token,
+      chat_id=cid,
+      message_thread_id=thread_id,
+  )
+  if success:
+    print("[OK] Test message sent successfully!")
+  else:
+    print(
+        "[!] Test message failed. Please check your TELEGRAM_BOT_TOKEN,"
+        f" TELEGRAM_CHAT_ID ({cid}), and TELEGRAM_MESSAGE_THREAD_ID ({thread_id})."
+    )
+  return success
 
 
 def fetch_current_trade_ideas():
@@ -339,18 +418,7 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   if args.test:
-    test_msg = (
-        "✅ <b>askSlim Telegram Notifier Connected!</b>\n\nYou will receive"
-        " instant alerts here whenever a new trade idea is posted or updated."
-    )
-    success = send_telegram_message(test_msg)
-    if success:
-      print("[OK] Test message sent successfully!")
-    else:
-      print(
-          "[!] Test message failed. Please check your TELEGRAM_BOT_TOKEN and"
-          " TELEGRAM_CHAT_ID."
-      )
+    send_test_message()
   elif args.once:
     check_for_updates()
   else:

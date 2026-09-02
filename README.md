@@ -30,13 +30,16 @@ Automated 24/7 Telegram notification monitor for askSlim Trade Ideas.
 
 ---
 
-## ⚙️ 24/7 GitHub Actions Setup
+## ⚙️ Telegram Destination & Setup
 
+- **Supergroup**: Escanor Capital (`chat_id: -1003893592513`)
+- **Forum Topic**: Slim Trade Ideas (`message_thread_id: 2`)
+
+### 24/7 GitHub Actions Setup:
 1. In this GitHub Repository, navigate to **Settings** > **Secrets and variables** > **Actions**.
 2. Click **New repository secret** and add:
    - `TELEGRAM_BOT_TOKEN`: Your bot token from [@BotFather](https://t.me/BotFather).
-   - `TELEGRAM_CHAT_ID`: Your chat ID from [@userinfobot](https://t.me/userinfobot).
-3. The workflow will automatically trigger every 5 minutes and send alerts directly to your Telegram.
+3. The workflow triggers automatically every 5 minutes and routes trade ideas directly to the **Slim Trade Ideas** forum topic in **Escanor Capital**.
 
 ---
 
