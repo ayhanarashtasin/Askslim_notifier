@@ -1,4 +1,66 @@
 {
+  "1094": {
+    "symbol": "GDX",
+    "status": 2,
+    "creation_date": "2026-09-03T14:33:08.557Z",
+    "current_price": 100.5,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 1,
+    "entry_ranges": [
+      [
+        100.25,
+        98.6
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        105.5,
+        110.0
+      ]
+    ],
+    "re_eval_point_number": 96.25,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly rising phase. Daily low due and reversal.. Looking for AM dip and a hold around the favorable zone.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 1,
+    "idea_outcome": 0
+  },
+  "1093": {
+    "symbol": "NEM",
+    "status": 2,
+    "creation_date": "2026-09-03T13:22:29.142Z",
+    "current_price": 128.5,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 1,
+    "entry_ranges": [
+      [
+        128.5,
+        126.0
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        138.0,
+        145.0
+      ]
+    ],
+    "re_eval_point_number": 121.55,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly rising phase. Daily low likely just formed. Watching for an AM bounce play with re-eval at recent lows.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 1,
+    "idea_outcome": 0
+  },
   "1092": {
     "symbol": "FNV",
     "status": 1,
