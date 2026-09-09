@@ -1,4 +1,35 @@
 {
+  "1095": {
+    "symbol": "DDOG",
+    "status": 2,
+    "creation_date": "2026-09-09T14:28:20.354Z",
+    "current_price": 221.0,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 1,
+    "entry_ranges": [
+      [
+        221.0,
+        221.0
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        233.0,
+        240.0
+      ]
+    ],
+    "re_eval_point_number": 209.0,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly low due 8/10 - 9/28. Momentum remains down. Retest of breakout.. Daily low due 9/2-9/16. Undercut and rally on daily off timing. Breakout play vs 9/3. Daily Close over that level and this will turn green on site.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 0,
+    "idea_outcome": 0
+  },
   "1094": {
     "symbol": "GDX",
     "status": 2,
