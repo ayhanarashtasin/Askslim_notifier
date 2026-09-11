@@ -1,4 +1,35 @@
 {
+  "1097": {
+    "symbol": "PANW",
+    "status": 2,
+    "creation_date": "2026-09-11T15:19:27.779Z",
+    "current_price": 327.8,
+    "position_bias": 1,
+    "market_outlook_period": 2,
+    "trade_type": 7,
+    "entry_ranges": [
+      [
+        328.0,
+        328.0
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        308.0,
+        297.0
+      ]
+    ],
+    "re_eval_point_number": 350.67,
+    "re_eval_point_condition": 1,
+    "briefing": "Weekly corrective period low due 9/21 - 11/2. Daily corrective phase and bear flag. Breakdown setup vs prior daily cycle low. Re-eval is high of day from 9/2. Targeting prior cycle low from 7/28 and 127.2 Extension. Close below cycle low and will turn green on site.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 0,
+    "idea_outcome": 0
+  },
   "1096": {
     "symbol": "AMD",
     "status": 2,
