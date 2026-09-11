@@ -1,4 +1,35 @@
 {
+  "1096": {
+    "symbol": "AMD",
+    "status": 2,
+    "creation_date": "2026-09-11T13:56:55.855Z",
+    "current_price": 513.0,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 6,
+    "entry_ranges": [
+      [
+        516.33,
+        516.33
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        546.0,
+        575.0
+      ]
+    ],
+    "re_eval_point_number": 486.0,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly attempting to enter rising phase. Daily low just formed - tight flag on daily. Favorable is move over prior 30min high. Re-eval is a prior day low.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 0,
+    "idea_outcome": 0
+  },
   "1095": {
     "symbol": "DDOG",
     "status": 2,
@@ -32,7 +63,7 @@
   },
   "1094": {
     "symbol": "GDX",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-09-03T14:33:08.557Z",
     "current_price": 100.5,
     "position_bias": 2,
@@ -56,14 +87,14 @@
     "re_eval_point_number": 96.25,
     "re_eval_point_condition": -1,
     "briefing": "Weekly rising phase. Daily low due and reversal.. Looking for AM dip and a hold around the favorable zone.",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-09-11T14:37:31Z",
+    "result_text": "closed below re-eval yesterday",
     "entered_favorable_entry": 1,
-    "idea_outcome": 0
+    "idea_outcome": 1
   },
   "1093": {
     "symbol": "NEM",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-09-03T13:22:29.142Z",
     "current_price": 128.5,
     "position_bias": 2,
@@ -87,8 +118,8 @@
     "re_eval_point_number": 121.55,
     "re_eval_point_condition": -1,
     "briefing": "Weekly rising phase. Daily low likely just formed. Watching for an AM bounce play with re-eval at recent lows.",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-09-11T14:36:53Z",
+    "result_text": "scratching NEM - continues to hover in favorable - will be targeting secondary play through 130.70",
     "entered_favorable_entry": 1,
     "idea_outcome": 0
   },
