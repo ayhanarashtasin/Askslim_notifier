@@ -63,7 +63,7 @@
   },
   "1096": {
     "symbol": "AMD",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-09-11T13:56:55.855Z",
     "current_price": 513.0,
     "position_bias": 2,
@@ -87,8 +87,8 @@
     "re_eval_point_number": 486.0,
     "re_eval_point_condition": -1,
     "briefing": "Weekly attempting to enter rising phase. Daily low just formed - tight flag on daily. Favorable is move over prior 30min high. Re-eval is a prior day low.",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-09-14T18:19:34Z",
+    "result_text": "Replacing this idea with a different setup",
     "entered_favorable_entry": 0,
     "idea_outcome": 0
   },
