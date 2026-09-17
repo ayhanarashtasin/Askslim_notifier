@@ -1,4 +1,35 @@
 {
+  "1100": {
+    "symbol": "FNV",
+    "status": 2,
+    "creation_date": "2026-09-17T14:17:06.251Z",
+    "current_price": 267.0,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 6,
+    "entry_ranges": [
+      [
+        269.0,
+        269.0
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        285.0,
+        285.0
+      ]
+    ],
+    "re_eval_point_number": 258.0,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly rising phase. Daily bull flag in the royalty trust FNV.. Re-eval is the 21d EMA. Needs daily close over breakout level to turn green.. See video.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 0,
+    "idea_outcome": 0
+  },
   "1099": {
     "symbol": "AMD",
     "status": 2,
