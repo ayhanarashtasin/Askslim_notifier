@@ -32,7 +32,7 @@
   },
   "1099": {
     "symbol": "AMD",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-09-14T18:18:34.983Z",
     "current_price": 498.0,
     "position_bias": 2,
@@ -56,10 +56,10 @@
     "re_eval_point_number": 480.0,
     "re_eval_point_condition": -1,
     "briefing": "Weekly low due. Daily rising phase and pausing here pre-breakout.. see video.  Note it needs close over favorable to turn green.",
-    "inactive_datetime": null,
-    "result_text": "",
-    "entered_favorable_entry": 0,
-    "idea_outcome": 0
+    "inactive_datetime": "2026-09-21T14:52:34Z",
+    "result_text": "Explosive move out of consolidation.",
+    "entered_favorable_entry": 1,
+    "idea_outcome": 2
   },
   "1097": {
     "symbol": "PANW",
