@@ -1,4 +1,35 @@
 {
+  "1101": {
+    "symbol": "NEM",
+    "status": 2,
+    "creation_date": "2026-09-22T18:15:20.791Z",
+    "current_price": 126.0,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 1,
+    "entry_ranges": [
+      [
+        126.0,
+        126.0
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        130.0,
+        135.0
+      ]
+    ],
+    "re_eval_point_number": 120.5,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly rising phase and flag. Daily low - trying to move out of the consolidation. if it closes over 126 today will turn green on site.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 2,
+    "idea_outcome": 0
+  },
   "1100": {
     "symbol": "FNV",
     "status": 2,
@@ -29822,37 +29853,6 @@
     "entered_favorable_entry": 2,
     "idea_outcome": 3
   },
-  "125": {
-    "symbol": "UAL",
-    "status": 1,
-    "creation_date": "2020-07-21T00:00:00Z",
-    "current_price": 33.07,
-    "position_bias": 2,
-    "market_outlook_period": 2,
-    "trade_type": 1,
-    "entry_ranges": [
-      [
-        33.01,
-        30.85
-      ]
-    ],
-    "projections": [
-      2
-    ],
-    "target_ranges": [
-      [
-        36.78,
-        41.42
-      ]
-    ],
-    "re_eval_point_number": 29.23,
-    "re_eval_point_condition": -1,
-    "briefing": "The weekly cycle analysis suggests that UAL is about midway through its weekly cycle. The stock formed a high in the 4th week of its rising phase - there are good odds that we get one more attempted  rally before risks increase on the downside. Weekly momentum is negative. The daily cycle analysis suggests that the stock has formed a short-term low. The short-term low was due between 6/30 - 7/13. UAL formed a short-term high in the 3rd day of its cycle. Given how early it is in its short-term rising phase, the odds favor that UAL will likely have another attempted rally. We are targeting a short-term resistance zone on the upside. The stock is testing a minor support zone. Please review the UAL Trade Idea video for a walk through of the analysis.",
-    "inactive_datetime": "2020-08-04T14:14:12Z",
-    "result_text": "UAL is still trading just above the favorable entry. However, the stock has gone sideways in a short-term rising phase. We are inactivating this Trade Idea.",
-    "entered_favorable_entry": 2,
-    "idea_outcome": 0
-  },
   "124": {
     "symbol": "COST",
     "status": 1,
@@ -29883,6 +29883,37 @@
     "result_text": "The  conditions for this Trade Idea have been satisfied. COST tested the favorable entry and has now tested the projection/target zone.",
     "entered_favorable_entry": 2,
     "idea_outcome": 2
+  },
+  "125": {
+    "symbol": "UAL",
+    "status": 1,
+    "creation_date": "2020-07-21T00:00:00Z",
+    "current_price": 33.07,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 1,
+    "entry_ranges": [
+      [
+        33.01,
+        30.85
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        36.78,
+        41.42
+      ]
+    ],
+    "re_eval_point_number": 29.23,
+    "re_eval_point_condition": -1,
+    "briefing": "The weekly cycle analysis suggests that UAL is about midway through its weekly cycle. The stock formed a high in the 4th week of its rising phase - there are good odds that we get one more attempted  rally before risks increase on the downside. Weekly momentum is negative. The daily cycle analysis suggests that the stock has formed a short-term low. The short-term low was due between 6/30 - 7/13. UAL formed a short-term high in the 3rd day of its cycle. Given how early it is in its short-term rising phase, the odds favor that UAL will likely have another attempted rally. We are targeting a short-term resistance zone on the upside. The stock is testing a minor support zone. Please review the UAL Trade Idea video for a walk through of the analysis.",
+    "inactive_datetime": "2020-08-04T14:14:12Z",
+    "result_text": "UAL is still trading just above the favorable entry. However, the stock has gone sideways in a short-term rising phase. We are inactivating this Trade Idea.",
+    "entered_favorable_entry": 2,
+    "idea_outcome": 0
   },
   "123": {
     "symbol": "TGT",
