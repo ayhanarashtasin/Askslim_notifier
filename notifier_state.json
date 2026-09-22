@@ -1,4 +1,35 @@
 {
+  "1102": {
+    "symbol": "FSM",
+    "status": 2,
+    "creation_date": "2026-09-22T18:58:11.062Z",
+    "current_price": 12.14,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 1,
+    "entry_ranges": [
+      [
+        12.08,
+        12.08
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        12.82,
+        13.24
+      ]
+    ],
+    "re_eval_point_number": 11.46,
+    "re_eval_point_condition": -1,
+    "briefing": "Weekly rising phase and flag vs 78.6... One of the better performing silver miners as well. Daily if it closes over 12.08 today will turn green. Targeting 61.8 - 78.6 Extension zones",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 0,
+    "idea_outcome": 0
+  },
   "1101": {
     "symbol": "NEM",
     "status": 2,
