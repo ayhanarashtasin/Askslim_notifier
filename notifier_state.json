@@ -1,7 +1,7 @@
 {
   "1102": {
     "symbol": "FSM",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-09-22T18:58:11.062Z",
     "current_price": 12.14,
     "position_bias": 2,
@@ -25,14 +25,14 @@
     "re_eval_point_number": 11.46,
     "re_eval_point_condition": -1,
     "briefing": "Weekly rising phase and flag vs 78.6... One of the better performing silver miners as well. Daily if it closes over 12.08 today will turn green. Targeting 61.8 - 78.6 Extension zones",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-09-24T15:17:34Z",
+    "result_text": "moving through re-eval",
     "entered_favorable_entry": 1,
-    "idea_outcome": 0
+    "idea_outcome": 1
   },
   "1101": {
     "symbol": "NEM",
-    "status": 2,
+    "status": 1,
     "creation_date": "2026-09-22T18:15:20.791Z",
     "current_price": 126.0,
     "position_bias": 2,
@@ -56,10 +56,10 @@
     "re_eval_point_number": 120.5,
     "re_eval_point_condition": -1,
     "briefing": "Weekly rising phase and flag. Daily low - trying to move out of the consolidation. if it closes over 126 today will turn green on site.",
-    "inactive_datetime": null,
-    "result_text": "",
+    "inactive_datetime": "2026-09-24T15:17:55Z",
+    "result_text": "moving through re-eval",
     "entered_favorable_entry": 1,
-    "idea_outcome": 0
+    "idea_outcome": 1
   },
   "1100": {
     "symbol": "FNV",
