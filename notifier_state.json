@@ -1,4 +1,35 @@
 {
+  "1103": {
+    "symbol": "SPCX",
+    "status": 2,
+    "creation_date": "2026-10-02T16:18:27.869Z",
+    "current_price": 157.4,
+    "position_bias": 2,
+    "market_outlook_period": 2,
+    "trade_type": 13,
+    "entry_ranges": [
+      [
+        155.0,
+        155.0
+      ]
+    ],
+    "projections": [
+      2
+    ],
+    "target_ranges": [
+      [
+        170.0,
+        170.0
+      ]
+    ],
+    "re_eval_point_number": 146.0,
+    "re_eval_point_condition": -1,
+    "briefing": "There are no weekly and daily cycles get on SPCX since it is a new IPO. Seeing the post IPO base form in the name and hold right against that 150 pivot we discussed in discord. Today we are igniting higher on news of leasing compute capacity to Microsoft. If it can hold through 155 today will turn green on site.",
+    "inactive_datetime": null,
+    "result_text": "",
+    "entered_favorable_entry": 0,
+    "idea_outcome": 0
+  },
   "1102": {
     "symbol": "FSM",
     "status": 1,
