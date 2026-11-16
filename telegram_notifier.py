@@ -39,13 +39,18 @@ OUTCOME_MAP = {
     2: "Target Zone Reached",
     3: "Target Zone Reached (Early / Missed Entry)",
 }
+ENTRY_STATUS_MAP = {
+    0: "Not Entered / Waiting",
+    1: "Entered Favorable Entry (Triggered 🟢)",
+    2: "Did Not Enter",
+}
 
 
 def _send_telegram_api(
     endpoint: str, payload: dict, bot_token: str = None
 ) -> bool:
   """Sends an API request to Telegram and logs the complete response on rejection or failure."""
-  token = bot_token or TELEGRAM_BOT_TOKEN
+  token = (bot_token or TELEGRAM_BOT_TOKEN or "").strip()
 
   if token == "YOUR_TELEGRAM_BOT_TOKEN_HERE" or not token:
     print(" [!] Telegram credentials not configured. Message preview:")
@@ -187,7 +192,7 @@ def load_previous_state():
 
 def save_current_state(state):
   """Saves the current state to disk."""
-  with open(STATE_FILE, "w", encoding="utf-8") as f:
+  with open(STATE_FILE, "w", encoding="utf-8", newline="\n") as f:
     json.dump(state, f, indent=2, ensure_ascii=False)
 
 
@@ -260,7 +265,7 @@ def format_new_idea_message(idea_id: str, item: dict) -> str:
       f"Daily Close {cond_symbol}{re_eval_num}" if re_eval_num is not None else "N/A"
   )
 
-  briefing = html.escape(item.get("briefing", "").strip(), quote=False)
+  briefing = html.escape((item.get("briefing") or "").strip(), quote=False)
 
   msg = (
       f"🚨 <b>NEW ASKSILM TRADE IDEA: ${symbol}</b>\n\n"
@@ -297,11 +302,34 @@ def format_status_update_message(
   bias = BIAS_MAP.get(new_item.get("position_bias"), "N/A")
 
   outcome = OUTCOME_MAP.get(new_item.get("idea_outcome"), "N/A")
-  result_text = html.escape(new_item.get("result_text", "").strip(), quote=False)
+  result_text = html.escape(
+      (new_item.get("result_text") or "").strip(), quote=False
+  )
+
+  old_entry_code = old_item.get("entered_favorable_entry")
+  new_entry_code = new_item.get("entered_favorable_entry")
+  entry_line = ""
+  if old_entry_code != new_entry_code:
+    old_entry = html.escape(
+        ENTRY_STATUS_MAP.get(
+            old_entry_code,
+            "Unknown" if old_entry_code is None else str(old_entry_code),
+        ),
+        quote=False,
+    )
+    new_entry = html.escape(
+        ENTRY_STATUS_MAP.get(
+            new_entry_code,
+            "Unknown" if new_entry_code is None else str(new_entry_code),
+        ),
+        quote=False,
+    )
+    entry_line = f"• <b>Entry Status:</b> {old_entry} ➔ <b>{new_entry}</b>\n"
 
   msg = (
       f"🔔 <b>TRADE IDEA UPDATE: ${symbol}</b>\n\n"
       f"• <b>Status:</b> {old_status} ➔ <b>{new_status}</b>\n"
+      f"{entry_line}"
       f"• <b>Date:</b> {date_str}\n"
       f"• <b>Period:</b> {period}\n"
       f"• <b>Symbol:</b> <b>${symbol}</b>\n"
@@ -317,15 +345,19 @@ def format_status_update_message(
   return msg
 
 
-def check_for_updates():
-  """Checks askSlim for changes, sends notifications, and updates the local state."""
+def check_for_updates() -> bool:
+  """Checks askSlim for changes, sends notifications, and updates the local state.
+
+  Returns True if all notifications succeeded (or none were needed), False if any
+  Telegram send failed or the API returned invalid data.
+  """
   timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
   print(f"[{timestamp}] Checking askSlim for updates...")
 
   current_ideas = fetch_current_trade_ideas()
   if not current_ideas or not isinstance(current_ideas, dict):
     print(" [!] No trade data received from askSlim API. Skipping state update to protect data.")
-    return
+    return False
 
   previous_state = load_previous_state()
 
@@ -336,22 +368,26 @@ def check_for_updates():
     )
     save_current_state(current_ideas)
     print(" [+] Initial state saved. Monitoring is now active!")
-    return
+    return True
 
   new_count = 0
   update_count = 0
+  failed_count = 0
+  next_state = {}
 
-  # Check for brand new ideas
   for idea_id, item in current_ideas.items():
     if idea_id not in previous_state:
       new_count += 1
       print(f" [+] Found NEW trade idea: {item.get('symbol')} (ID: {idea_id})")
       msg = format_new_idea_message(idea_id, item)
-      send_telegram_message(msg)
+      if send_telegram_message(msg):
+        next_state[idea_id] = item
+      else:
+        failed_count += 1
       time.sleep(1)
 
     else:
-      # Check for status / result updates on existing ideas
+      # Check for status / result / entry-trigger updates on existing ideas
       old_item = previous_state[idea_id]
       status_changed = old_item.get("status") != item.get("status")
       outcome_changed = (
@@ -362,22 +398,41 @@ def check_for_updates():
           old_item.get("result_text") != item.get("result_text")
           and item.get("result_text")
       )
+      entry_triggered = (
+          old_item.get("entered_favorable_entry")
+          != item.get("entered_favorable_entry")
+          and item.get("entered_favorable_entry") == 1
+      )
 
-      if status_changed or outcome_changed or result_changed:
+      if status_changed or outcome_changed or result_changed or entry_triggered:
         update_count += 1
         print(
             f" [~] Found UPDATE for trade idea: {item.get('symbol')} (ID:"
             f" {idea_id})"
         )
         msg = format_status_update_message(idea_id, old_item, item)
-        send_telegram_message(msg)
+        if send_telegram_message(msg):
+          next_state[idea_id] = item
+        else:
+          failed_count += 1
+          next_state[idea_id] = old_item
         time.sleep(1)
+      else:
+        next_state[idea_id] = item
 
   if new_count == 0 and update_count == 0:
     print(" [OK] No new updates found. Everything is up to date.")
 
-  # Save updated state
-  save_current_state(current_ideas)
+  if next_state != previous_state:
+    save_current_state(next_state)
+
+  if failed_count > 0:
+    print(
+        f" [!] {failed_count} Telegram notification(s) failed; state preserved for retry.",
+        file=sys.stderr,
+    )
+    return False
+  return True
 
 
 def run_continuous_monitor(interval_seconds: int = CHECK_INTERVAL_SECONDS):
@@ -418,8 +473,10 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   if args.test:
-    send_test_message()
+    if not send_test_message():
+      raise SystemExit(1)
   elif args.once:
-    check_for_updates()
+    if not check_for_updates():
+      raise SystemExit(1)
   else:
     run_continuous_monitor(args.interval)
